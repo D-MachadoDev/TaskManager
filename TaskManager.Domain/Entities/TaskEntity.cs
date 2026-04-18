@@ -1,4 +1,3 @@
-
 namespace TaskManager.Domain.Entities
 {
     public class TaskEntity
@@ -9,6 +8,7 @@ namespace TaskManager.Domain.Entities
         public bool IsCompleted { get; set;  }
         public DateTime CreatedAt { get; set; }
         public int UserId { get; set; }
-
+        public DateTime? DueDate { get; set; } // Fecha límite para completar la tarea
+        public string Priority { get; set; } = "Medium"; // Prioridad: Low, Medium, High
     }
 }
