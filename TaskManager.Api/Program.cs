@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using TaskManager.Application.Exceptions;
 using TaskManager.Application.Interfaces;
 using TaskManager.Application.Services;
 using TaskManager.Infrastructure.Data;
@@ -12,32 +11,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 builder.Services.AddScoped<TaskService>();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
 app.UseHttpsRedirection();
 
-app.MapGet("/api/tasks/{userId:int}/{taskId:int}", async (int userId, int taskId, TaskService taskService) =>
-{
-    try
-    {
-        var task = await taskService.GetTaskByIdAsync(userId, taskId);
-        return Results.Ok(task);
-    }
-    catch (TaskValidationException ex)
-    {
-        return Results.BadRequest(new { message = ex.Message });
-    }
-    catch (TaskNotFoundException ex)
-    {
-        return Results.NotFound(new { message = ex.Message });
-    }
-    catch (TaskForbiddenException ex)
-    {
-        return Results.StatusCode(StatusCodes.Status403Forbidden);
-    }
-});
+app.MapControllers();
 
 app.Run();
-
-
