@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using TaskManager.Application.Exceptions;
 using TaskManager.Application.Services;
-using TaskManager.Domain.Entities;
 
 namespace TaskManager.Api.Controllers;
 
@@ -60,20 +60,11 @@ public class TaskController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateTaskRequest request)
+    public async Task<IActionResult> Create([FromBody, Required] CreateTaskRequest request)
     {
         try
         {
-            var task = new TaskEntity
-            {
-                Title = request.Title,
-                Description = request.Description,
-                UserId = request.UserId,
-                CreatedAt = DateTime.UtcNow,
-                IsCompleted = false
-            };
-
-            var createdTask = await _taskService.CreateAsync(task);
+            var createdTask = await _taskService.CreateAsync(request.Title, request.Description, request.UserId);
             return CreatedAtAction(nameof(GetById), new { userId = createdTask.UserId, taskId = createdTask.Id }, createdTask);
         }
         catch (TaskValidationException ex)
@@ -82,8 +73,8 @@ public class TaskController : ControllerBase
         }
     }
 
-    [HttpPatch("{taskId:int}/complete")]
-    public async Task<IActionResult> CompleteTask(int taskId, [FromQuery] int userId)
+    [HttpPatch("{userId:int}/{taskId:int}/complete")]
+    public async Task<IActionResult> CompleteTask(int userId, int taskId)
     {
         try
         {
@@ -108,8 +99,8 @@ public class TaskController : ControllerBase
         }
     }
 
-    [HttpDelete("{taskId:int}")]
-    public async Task<IActionResult> DeleteTask(int taskId, [FromQuery] int userId)
+    [HttpDelete("{userId:int}/{taskId:int}")]
+    public async Task<IActionResult> DeleteTask(int userId, int taskId)
     {
         try
         {
@@ -133,7 +124,11 @@ public class TaskController : ControllerBase
 
 public sealed class CreateTaskRequest
 {
+    [Required]
     public string Title { get; set; } = string.Empty;
+
     public string? Description { get; set; }
+
+    [Range(1, int.MaxValue)]
     public int UserId { get; set; }
 }

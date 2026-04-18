@@ -65,6 +65,20 @@ namespace TaskManager.Application.Services
             return newTask;
         }
 
+        public async Task<TaskEntity> CreateAsync(string title, string? description, int userId)
+        {
+            var task = new TaskEntity
+            {
+                Title = title,
+                Description = description,
+                UserId = userId,
+                CreatedAt = DateTime.UtcNow,
+                IsCompleted = false
+            };
+
+            return await CreateAsync(task);
+        }
+
         public async Task CompleteTaskAsync(int taskId, int userId)
         {
 

@@ -41,7 +41,7 @@ Todos estos clientes consumen la API por URL + verbo HTTP.
 - `GET /api/tasks`: listar todas las tareas
 - `GET /api/tasks/user/{userId}`: listar tareas de un usuario
 - `POST /api/tasks`: crear tarea
-- `PATCH /api/tasks/{taskId}/complete?userId={id}`: completar tarea
-- `DELETE /api/tasks/{taskId}?userId={id}`: eliminar tarea
+- `PATCH /api/tasks/{userId}/{taskId}/complete`: completar tarea
+- `DELETE /api/tasks/{userId}/{taskId}`: eliminar tarea
 
-> En este proyecto no hay vistas Razor, así que **sí hay patrón MVC**, pero usando solo **Controller + Model** (sin View), típico de ASP.NET Core Web API.
+> En este proyecto no hay vistas Razor. Es una **Web API** con controladores (estilo MVC en la parte de Controller/Model), no una app MVC tradicional con vistas.
