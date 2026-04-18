@@ -1,0 +1,20 @@
+# Ignorar carpetas de compilación y archivos temporales
+bin/
+obj/
+*.log
+*.tmp
+*.cache
+*.user
+*.vs
+*.vscode
+.idea/
+*.suo
+*.pdb
+*.mdb
+*.exe
+*.dll
+*.db
+*.bak
+*.swp
+*.DS_Store
+Thumbs.db
