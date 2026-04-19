@@ -1,3 +1,4 @@
+using TaskManager.Application.DTOs;
 using TaskManager.Application.Exceptions;
 using TaskManager.Application.Interfaces;
 using TaskManager.Domain.Entities;
@@ -30,7 +31,7 @@ namespace TaskManager.Application.Services
             return task;
         }
         
-        public async Task<ICollection<TaskEntity>> GetAllAsync(){
+        public async Task<ICollection<TaskListItemDto>> GetAllAsync(){
 
             var tasks = await _repository.GetAllAsync();
 
